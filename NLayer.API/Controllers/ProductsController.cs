@@ -33,7 +33,7 @@ namespace NLayer.API.Controllers
 
         // * GET api/products/5 ise bu method
         [HttpGet("{id}")] // www.abc.com/products/5   
-        public async Task<IActionResult> GetById(int id) //  [HttpGet("{id}")] şeklinde http methodda belirmeseydik bu id'yi querystringtem beklerdi.
+        public async Task<IActionResult> GetById(int id) //  [HttpGet("{id}")] şeklinde http methodda belirmeseydik bu id'yi querystringtem beklerdi. > // www.abc.com/products?id=5   
         {
             var product = await _service.GetByIdAsync(id);
             var productDto = _mapper.Map<ProductDto>(product);
