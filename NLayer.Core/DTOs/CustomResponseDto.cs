@@ -19,6 +19,7 @@ namespace NLayer.Core.DTOs
 
         public List<string> Errors { get; set; }
 
+        //Static Factory Design Pattern > Dönülecek responseta oluşturulacak nesnenin örneklemesini kontrol altına almak için.
         public static CustomResponseDto<T> Success(int statusCode)
         {
             return new CustomResponseDto<T> { StatusCode = statusCode };
