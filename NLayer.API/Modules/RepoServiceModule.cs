@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using NLayer.Caching;
 using NLayer.Core.Repositories;
 using NLayer.Core.Services;
 using NLayer.Core.UnitOfWorks;
@@ -30,6 +31,9 @@ namespace NLayer.API.Modules
             builder.RegisterAssemblyTypes(apiAssembly, repoAssembly, serviceAssembly).Where(x => x.Name.EndsWith("Repository")).AsImplementedInterfaces().InstancePerLifetimeScope();
 
             builder.RegisterAssemblyTypes(apiAssembly, repoAssembly, serviceAssembly).Where(x => x.Name.EndsWith("Service")).AsImplementedInterfaces().InstancePerLifetimeScope();
+            // ProductService sınıfının adını ProductServiceWithNoCaching olarak güncelledik ki "Service" ile bittiği için otomatik olarak register olmasın, çnk Caching ekledik ve ProductServiceWithCaching zaten IProductService interfaceinden miras alıyor. Şimdi onu manuel eklememiz gerekli.
+            // Caching projesi Service projesini referans aldığından, API referanslarındna service kaldırıp caching projesini ekledik.
+            builder.RegisterType<ProductServiceWithCaching>().As<IProductService>();
 
             // Autofac.InstancePerLifetimeScope > .NET.AddScoped
             // Autofac.InstancePerDependency > .NET.AddTransient

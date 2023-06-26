@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace NLayer.Core.DTOs
 {
+    // Factory Design Pattern
     public class CustomResponseDto<T>
     {
         public T Data { get; set; }

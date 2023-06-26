@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace NLayer.Repository.Repositories
 {
+    // Generic Design Pattern
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         protected readonly AppDbContext _context;
