@@ -11,13 +11,13 @@ namespace NLayer.Repository.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        protected readonly AppDbContext _appDbContext;
+        protected readonly AppDbContext _context;
         private readonly DbSet<T> _dbSet;
 
         public GenericRepository(AppDbContext appDbContext)
         {
-            _appDbContext = appDbContext;
-            _dbSet = _appDbContext.Set<T>();
+            _context = appDbContext;
+            _dbSet = _context.Set<T>();
         }
 
         public async Task AddAsync(T entity)

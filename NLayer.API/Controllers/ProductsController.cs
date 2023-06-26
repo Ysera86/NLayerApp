@@ -7,18 +7,26 @@ using NLayer.Core.Services;
 
 namespace NLayer.API.Controllers
 {
-    [Route("api/[controller]")]
-    //[Route("api/[controller]/[action]")] > olsaydı istek yaparken methodun ismini yazmak gerekirdi, bu şekilde olmadığından http methoda göre istek yaparken methodun tipine göre eşleştiriyor *
-    [ApiController]
     public class ProductsController : CustomBaseController
     {
         private readonly IMapper _mapper;
-        private readonly IService<Product> _service;
+        //private readonly IService<Product> _service;
+        private readonly IProductService _service;
 
-        public ProductsController(IService<Product> service, IMapper mapper)
+        //public ProductsController(IService<Product> service, IMapper mapper)
+        public ProductsController(IProductService service, IMapper mapper)
         {
             _service = service;
             _mapper = mapper;
+        }
+
+        // * GET api/products/GetProductsWithCategory çnk 1den fazla GET methodlu endpoint oldu artık
+        // [HttpGet("[action]")] // otomatik method adını alır bu şekilde belirtirsek.
+        // Yani burada [HttpGet("[action]")] = [HttpGet("GetProductsWithCategory")]
+        [HttpGet("GetProductsWithCategory")]
+        public async Task<IActionResult> GetProductsWithCategory() 
+        {
+            return CreateActionResult(await _service.GetProductsWithCategoryAsync());
         }
 
         // * GET api/products ise bu method
@@ -56,7 +64,7 @@ namespace NLayer.API.Controllers
         }
 
         // * DELETE api/products/5 ise bu method
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Remove(int id)
         {
             var product = await _service.GetByIdAsync(id);
