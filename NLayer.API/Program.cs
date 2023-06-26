@@ -41,6 +41,8 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 
+builder.Services.AddScoped(typeof(NotFoundFilter<>));
+
 // Db ConnectionString
 builder.Services.AddDbContext<AppDbContext>(x =>
 {
