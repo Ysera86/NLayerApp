@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NLayer.API.Filters;
 using NLayer.Core.Services;
 
 namespace NLayer.API.Controllers
@@ -8,6 +9,7 @@ namespace NLayer.API.Controllers
     // CustomBaseController içinden geliyorlar
     //[Route("api/[controller]")]
     //[ApiController]
+    //[ValidateFilter] // global eklicez : Best Practice
     public class CategoriesController : CustomBaseController
     {
         private readonly ICategoryService _categoryService;
