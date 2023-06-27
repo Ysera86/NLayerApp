@@ -20,6 +20,7 @@ namespace NLayer.API.Modules
         {
             builder.RegisterGeneric(typeof(GenericRepository<>)).As(typeof(IGenericRepository<>)).InstancePerLifetimeScope();
             builder.RegisterGeneric(typeof(Service<>)).As(typeof(IService<>)).InstancePerLifetimeScope();
+            builder.RegisterGeneric(typeof(ServiceWithDto<,>)).As(typeof(IServiceWithDto<,>)).InstancePerLifetimeScope();
 
             builder.RegisterType(typeof(UnitOfWork)).As(typeof(IUnitOfWork)).InstancePerLifetimeScope();
 
@@ -34,6 +35,11 @@ namespace NLayer.API.Modules
             // ProductService sınıfının adını ProductServiceWithNoCaching olarak güncelledik ki "Service" ile bittiği için otomatik olarak register olmasın, çnk Caching ekledik ve ProductServiceWithCaching zaten IProductService interfaceinden miras alıyor. Şimdi onu manuel eklememiz gerekli.
             // Caching projesi Service projesini referans aldığından, API referanslarındna service kaldırıp caching projesini ekledik.
             builder.RegisterType<ProductServiceWithCaching>().As<IProductService>();
+
+
+
+
+
 
             // Autofac.InstancePerLifetimeScope > .NET.AddScoped
             // Autofac.InstancePerDependency > .NET.AddTransient
