@@ -24,6 +24,8 @@ namespace NLayer.API.Modules
 
             builder.RegisterType(typeof(UnitOfWork)).As(typeof(IUnitOfWork)).InstancePerLifetimeScope();
 
+            builder.RegisterType(typeof(UnitOfWork)).As(typeof(IUnitOfWork)).InstancePerLifetimeScope();
+
 
             var apiAssembly = Assembly.GetExecutingAssembly();
             var repoAssembly = Assembly.GetAssembly(typeof(AppDbContext));
@@ -37,7 +39,7 @@ namespace NLayer.API.Modules
             builder.RegisterType<ProductServiceWithCaching>().As<IProductService>();
 
 
-
+            builder.RegisterAssemblyTypes(apiAssembly, repoAssembly, serviceAssembly).Where(x => x.Name.EndsWith("ServiceWithDto")).AsImplementedInterfaces().InstancePerLifetimeScope();
 
 
 

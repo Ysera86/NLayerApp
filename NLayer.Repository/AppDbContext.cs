@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using NLayer.Core.Models;
 using NLayer.Repository.Configuration;
 using System;
@@ -22,6 +23,11 @@ namespace NLayer.Repository
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //modelBuilder.ApplyConfiguration(new ProductConfiguration()); 
+            // tek tek eklemeden 
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+
             // ilgili entity için  EntityConfiguration içine yazdık 
             //modelBuilder.Entity<Category>().HasKey(c => c.Id); 
 
@@ -31,12 +37,46 @@ namespace NLayer.Repository
                   );
 
 
-            //modelBuilder.ApplyConfiguration(new ProductConfiguration()); 
-            // tek tek eklemeden 
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
-
             base.OnModelCreating(modelBuilder);
+        }
+
+
+        public override int SaveChanges()
+        {
+            UpdateChangeTracker();
+            return base.SaveChanges();
+        }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            UpdateChangeTracker();
+            return base.SaveChangesAsync(cancellationToken);
+        }
+
+        public void UpdateChangeTracker()
+        {
+            foreach (var item in ChangeTracker.Entries())
+            {
+                if (item.Entity is BaseEntity entityReference)
+                {
+                    switch (item.State)
+                    {
+                        case EntityState.Added:
+                            {
+                                Entry(entityReference).Property(x => x.UpdatedDate).IsModified = false;
+                                entityReference.CreatedDate = DateTime.Now;
+                                break;
+                            }
+                        case EntityState.Modified:
+                            {
+                                Entry(entityReference).Property(x => x.CreatedDate).IsModified = false;
+                                entityReference.UpdatedDate = DateTime.Now;
+                                break;
+                            }
+                    }
+
+                }
+            }
         }
     }
 }
