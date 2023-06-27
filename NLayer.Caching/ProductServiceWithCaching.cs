@@ -20,7 +20,7 @@ namespace NLayer.Caching
     // Proxy Design Pattern
     public class ProductServiceWithCaching : IProductService
     {
-        private readonly string _cacheProductKey = "productsCache";
+        private const string _cacheProductKey = "productsCache";
         private readonly IMapper _mapper;
         private readonly IMemoryCache _memoryCache;
         private readonly IProductRepository _repository;
